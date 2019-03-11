@@ -151,6 +151,7 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                         findViewById(R.id.no_new_updates_view).setVisibility(View.VISIBLE);
                         findViewById(R.id.recycler_view).setVisibility(View.GONE);
                     }
+                    downloadUpdatesList(false);
                 }
             }
         };
