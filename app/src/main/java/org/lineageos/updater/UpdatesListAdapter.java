@@ -280,6 +280,7 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         String buildDate = StringGenerator.getDateLocalizedUTC(mActivity,
                 DateFormat.LONG, update.getTimestamp());
         String buildVersion = mActivity.getString(R.string.list_build_version,
+                BuildInfoUtils.getBrand(),
                 update.getVersion());
         viewHolder.mBuildDate.setText(buildDate);
         viewHolder.mBuildVersion.setText(buildVersion);
@@ -500,6 +501,7 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         String buildDate = StringGenerator.getDateLocalizedUTC(mActivity,
                 DateFormat.MEDIUM, update.getTimestamp());
         String buildInfoText = mActivity.getString(R.string.list_build_version_date,
+                BuildInfoUtils.getBrand(),
                 update.getVersion(), buildDate);
         return new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.apply_update_dialog_title)
@@ -531,9 +533,11 @@ public class UpdatesListAdapter extends RecyclerView.Adapter<UpdatesListAdapter.
         if (alreadySeen) {
             return;
         }
+        final String message =
+                mActivity.getString(R.string.info_dialog_message, BuildInfoUtils.getBrand());
         new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.info_dialog_title)
-                .setMessage(R.string.info_dialog_message)
+                .setMessage(message)
                 .setPositiveButton(R.string.info_dialog_ok, (dialog, which) -> preferences.edit()
                         .putBoolean(Constants.HAS_SEEN_INFO_DIALOG, true)
                         .apply())
