@@ -170,10 +170,9 @@ public class UpdateImporter {
         } catch (Exception e) {
             if (file.exists()) {
                 file.delete();
-                throw new Exception("Verification failed, file has been deleted");
-            } else {
-                throw e;
+                Log.e(TAG, "Verification failed, file has been deleted");
             }
+            throw e;
         }
     }
 
