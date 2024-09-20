@@ -35,7 +35,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
+import java.text.DateFormat;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -200,15 +201,9 @@ public class UpdateImporter {
         InputStream iStream = null;
 
         try (final ZipFile zip = new ZipFile(file)) {
-            final Enumeration<? extends ZipEntry> iterator = zip.entries();
-            while (iterator.hasMoreElements()) {
-                final ZipEntry entry = iterator.nextElement();
-                if (!METADATA_PATH.equals(entry.getName())) {
-                    continue;
-                }
-
+            final ZipEntry entry = zip.getEntry(path);
+            if (entry != null) {
                 iStream = zip.getInputStream(entry);
-                break;
             }
 
             if (iStream == null) {
