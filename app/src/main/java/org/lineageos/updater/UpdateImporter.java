@@ -192,7 +192,7 @@ public class UpdateImporter {
         }
 
         Log.e(TAG, "Couldn't find timestamp in zip file, falling back to $now");
-        return System.currentTimeMillis();
+        return System.currentTimeMillis() / 1000;
     }
 
     private String readZippedFile(File file, String path) throws IOException {
