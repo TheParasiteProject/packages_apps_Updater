@@ -37,7 +37,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -617,19 +616,10 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
             // forcefully enabled, just to avoid users to be confused and complain that
             // recovery gets overwritten. That's the case of A/B and recovery-in-boot devices.
             updateRecovery.setChecked(true);
-            updateRecovery.setOnTouchListener(new View.OnTouchListener() {
-                private Toast forcedUpdateToast = null;
-
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (forcedUpdateToast != null) {
-                        forcedUpdateToast.cancel();
-                    }
-                    forcedUpdateToast = Toast.makeText(getApplicationContext(),
-                            getString(R.string.toast_forced_update_recovery), Toast.LENGTH_SHORT);
-                    forcedUpdateToast.show();
-                    return true;
-                }
+            updateRecovery.setOnTouchListener((v, event) -> {
+                Toast.makeText(getApplicationContext(),
+                        R.string.toast_forced_update_recovery, Toast.LENGTH_SHORT).show();
+                return true;
             });
         }
 
