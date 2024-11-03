@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/general_header"
+        app:iconSpaceReserved="false"
+        app:key="general">
+
+        <ListPreference
+            android:defaultValue="2"
+            android:key="auto_updates_check_interval"
+            android:title="@string/menu_auto_updates_check"
+            android:entries="@array/menu_auto_updates_check_interval_entries"
+            android:entryValues="@array/menu_auto_updates_check_interval_values"
+            android:summary="%s"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="auto_delete_updates"
+            android:summary="@string/auto_delete_updates_summary"
+            android:title="@string/menu_auto_delete_updates"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="ab_perf_mode"
+            android:summary="@string/ab_perf_mode_summary"
+            android:title="@string/menu_ab_perf_mode"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="update_recovery"
+            android:summary="@string/update_recovery_summary"
+            android:title="@string/menu_update_recovery"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

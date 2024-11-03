@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 The LineageOS Project
+ * Copyright (C) 2024 PixelOS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.lineageos.updater;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Application;
 
-import org.lineageos.updater.model.UpdateInfo;
+import com.google.android.material.color.DynamicColors;
 
-public abstract class UpdatesListActivity extends AppCompatActivity {
-    public abstract void exportUpdate(UpdateInfo update);
-    public abstract void showSnackbar(int stringId, int duration);
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        DynamicColors.applyToActivitiesIfAvailable(this);
+    }
 }

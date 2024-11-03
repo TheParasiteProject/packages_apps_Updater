@@ -21,4 +21,11 @@
         <item>@string/menu_auto_updates_check_interval_weekly</item>
         <item>@string/menu_auto_updates_check_interval_monthly</item>
     </string-array>
+
+    <string-array name="menu_auto_updates_check_interval_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>

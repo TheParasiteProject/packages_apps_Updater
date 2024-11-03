@@ -25,8 +25,9 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
+import android.os.Build;
 import android.os.SystemProperties;
-import android.os.storage.StorageManager;
+import android.os.storage.StorageManager;import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -46,7 +47,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
@@ -96,12 +100,13 @@ public class Utils {
     }
 
     public static boolean isCompatible(UpdateBaseInfo update) {
-        if (update.getVersion().compareTo(SystemProperties.get(Constants.PROP_BUILD_VERSION)) < 0) {
+        if (!canDowngrade()
+                && update.getVersion().compareTo(SystemProperties.get(Constants.PROP_BUILD_VERSION)) < 0) {
             Log.d(TAG, update.getName() + " is older than current Android version");
             return false;
         }
-        if (!SystemProperties.getBoolean(Constants.PROP_UPDATER_ALLOW_DOWNGRADING, false) &&
-                update.getTimestamp() <= SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) {
+        if (!canDowngrade()
+                && update.getTimestamp() <= SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) {
             Log.d(TAG, update.getName() + " is older than/equal to the current build");
             return false;
         }
@@ -113,10 +118,14 @@ public class Utils {
     }
 
     public static boolean canInstall(UpdateBaseInfo update) {
-        return (SystemProperties.getBoolean(Constants.PROP_UPDATER_ALLOW_DOWNGRADING, false) ||
-                update.getTimestamp() > SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0)) &&
+        return canDowngrade() ||
+                update.getTimestamp() > SystemProperties.getLong(Constants.PROP_BUILD_DATE, 0) &&
                 update.getVersion().equalsIgnoreCase(
                         SystemProperties.get(Constants.PROP_BUILD_VERSION));
+    }
+
+    public static boolean canDowngrade() {
+        return SystemProperties.getBoolean(Constants.PROP_UPDATER_ALLOW_DOWNGRADING, false);
     }
 
     public static List<UpdateInfo> parseJson(File file, boolean compatibleOnly)
@@ -152,19 +161,11 @@ public class Utils {
     }
 
     public static String getServerURL(Context context) {
-        String incrementalVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION_INCREMENTAL);
-        String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
-                SystemProperties.get(Constants.PROP_DEVICE));
-        String type = SystemProperties.get(Constants.PROP_RELEASE_TYPE).toLowerCase(Locale.ROOT);
+        String buildVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION);
+        String device = SystemProperties.get(Constants.PROP_DEVICE);
+        String serverUrl = context.getString(R.string.updater_server_url);
 
-        String serverUrl = SystemProperties.get(Constants.PROP_UPDATER_URI);
-        if (serverUrl.trim().isEmpty()) {
-            serverUrl = context.getString(R.string.updater_server_url);
-        }
-
-        return serverUrl.replace("{device}", device)
-                .replace("{type}", type)
-                .replace("{incr}", incrementalVersion);
+        return serverUrl.replace("{device}", device);
     }
 
     public static String getUpgradeBlockedURL(Context context) {
@@ -173,10 +174,13 @@ public class Utils {
         return context.getString(R.string.blocked_update_info_url, device);
     }
 
-    public static String getChangelogURL(Context context) {
-        String device = SystemProperties.get(Constants.PROP_NEXT_DEVICE,
-                SystemProperties.get(Constants.PROP_DEVICE));
-        return context.getString(R.string.menu_changelog_url, device);
+    public static String getChangelogURL(Context context, boolean forMenu) {
+        String buildVersion = SystemProperties.get(Constants.PROP_BUILD_VERSION);
+        String device = SystemProperties.get(Constants.PROP_DEVICE);
+        String changelogUrl =
+                context.getString(forMenu ? R.string.menu_changelog_url : R.string.changelog_url);
+
+        return changelogUrl.replace("{device}", device);
     }
 
     public static void triggerUpdate(Context context, String downloadId) {
@@ -390,8 +394,8 @@ public class Utils {
 
     public static int getUpdateCheckSetting(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getInt(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
-                Constants.AUTO_UPDATES_CHECK_INTERVAL_WEEKLY);
+        return Integer.parseInt(preferences.getString(Constants.PREF_AUTO_UPDATES_CHECK_INTERVAL,
+                ""+Constants.AUTO_UPDATES_CHECK_INTERVAL_WEEKLY));
     }
 
     public static boolean isUpdateCheckEnabled(Context context) {
@@ -412,5 +416,23 @@ public class Utils {
 
     public static boolean isRecoveryUpdateExecPresent() {
         return new File(Constants.UPDATE_RECOVERY_EXEC).exists();
+    }
+
+    // From DeviceInfoUtils.java
+    public static String getSecurityPatch() {
+        String patch = Build.VERSION.SECURITY_PATCH;
+        if (!"".equals(patch)) {
+            try {
+                SimpleDateFormat template = new SimpleDateFormat("yyyy-MM-dd");
+                Date patchDate = template.parse(patch);
+                String format = DateFormat.getBestDateTimePattern(Locale.getDefault(), "dMMMMyyyy");
+                patch = DateFormat.format(format, patchDate).toString();
+            } catch (ParseException e) {
+                // broken parse; fall through and use the raw string
+            }
+            return patch;
+        } else {
+            return null;
+        }
     }
 }

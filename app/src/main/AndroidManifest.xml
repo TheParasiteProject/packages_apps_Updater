@@ -15,7 +15,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".App"
         android:allowBackup="false"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
@@ -24,11 +26,14 @@
         android:usesCleartextTraffic="false">
 
         <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".UpdatesActivity" />
+
+        <activity
             android:name=".UpdatesActivity"
             android:excludeFromRecents="true"
-            android:label="@string/display_name"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/display_name"
             android:launchMode="singleTop">
             <intent-filter android:priority="2">
                 <action android:name="android.settings.SYSTEM_UPDATE_SETTINGS" />

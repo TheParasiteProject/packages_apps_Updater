@@ -125,9 +125,8 @@ public class UpdaterService extends Service {
                     setNotificationTitle(update);
                     handleInstallProgress(update);
                 } else if (UpdaterController.ACTION_UPDATE_REMOVED.equals(intent.getAction())) {
-                    final boolean isLocalUpdate = Update.LOCAL_ID.equals(downloadId);
                     Bundle extras = mNotificationBuilder.getExtras();
-                    if (extras != null && !isLocalUpdate && downloadId.equals(
+                    if (extras != null && downloadId.equals(
                             extras.getString(UpdaterController.EXTRA_DOWNLOAD_ID))) {
                         mNotificationBuilder.setExtras(null);
                         UpdateInfo update = mUpdaterController.getUpdate(downloadId);
@@ -369,7 +368,7 @@ public class UpdaterService extends Service {
                 mNotificationBuilder.setContentText(text);
                 mNotificationBuilder.setTicker(text);
                 mNotificationBuilder.setOngoing(false);
-                mNotificationBuilder.setAutoCancel(true);
+                mNotificationBuilder.setAutoCancel(false);
                 mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
                 tryStopSelf();
                 break;
@@ -410,7 +409,7 @@ public class UpdaterService extends Service {
                         getRebootPendingIntent());
                 mNotificationBuilder.setTicker(text);
                 mNotificationBuilder.setOngoing(false);
-                mNotificationBuilder.setAutoCancel(true);
+                mNotificationBuilder.setAutoCancel(false);
                 mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
 
                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -433,7 +432,7 @@ public class UpdaterService extends Service {
                 mNotificationBuilder.setContentText(text);
                 mNotificationBuilder.setTicker(text);
                 mNotificationBuilder.setOngoing(false);
-                mNotificationBuilder.setAutoCancel(true);
+                mNotificationBuilder.setAutoCancel(false);
                 mNotificationManager.notify(NOTIFICATION_ID, mNotificationBuilder.build());
                 tryStopSelf();
                 break;

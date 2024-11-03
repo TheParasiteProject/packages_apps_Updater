@@ -15,5 +15,9 @@
      limitations under the License.
 -->
 <resources>
+    <!-- Whether to hide recovery update option -->
     <bool name="config_hideRecoveryUpdate">false</bool>
+
+    <!-- Whether device supports A/B performance mode -->
+    <bool name="config_ab_perf_mode">true</bool>
 </resources>
