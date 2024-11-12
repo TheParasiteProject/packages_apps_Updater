@@ -15,7 +15,7 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">System updates</string>
+    <string name="app_name">System Updates Service</string>
     <string name="display_name">System updates</string>
 
     <!-- Directory where the update files will be downloaded and stored.
