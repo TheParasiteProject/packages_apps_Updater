@@ -97,15 +97,12 @@ public class Utils {
 
     private static boolean compareVersions(String a, String b, boolean allowMajorUpgrades) {
         try {
-            int majorA = Integer.parseInt(a.split("\\.")[0]);
-            int minorA = Integer.parseInt(a.split("\\.")[1]);
-
-            int majorB = Integer.parseInt(b.split("\\.")[0]);
-            int minorB = Integer.parseInt(b.split("\\.")[1]);
+            int A = Integer.parseInt(a);
+            int B = Integer.parseInt(b);
 
             // Return early and allow if we allow major version upgrades
-            return (allowMajorUpgrades && majorA > majorB)
-                    || (majorA == majorB && minorA >= minorB);
+            return (allowMajorUpgrades && A > B)
+                    || (A == B);
         } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
             return false;
         }
