@@ -25,6 +25,7 @@
 
         <activity
             android:name=".UpdatesActivity"
+            android:configChanges="orientation|screenSize"
             android:excludeFromRecents="true"
             android:label="@string/display_name"
             android:exported="true"
