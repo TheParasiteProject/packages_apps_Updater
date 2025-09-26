@@ -234,8 +234,6 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
         } else {
             findViewById(R.id.preferences).setOnClickListener(v -> showPreferencesDialog());
         }
-
-        maybeShowWelcomeMessage();
     }
 
     @Override
@@ -531,20 +529,6 @@ public class UpdatesActivity extends UpdatesListActivity implements UpdateImport
                                 String.valueOf(enableRecoveryUpdate));
                     }
                 })
-                .show();
-    }
-
-    private void maybeShowWelcomeMessage() {
-        boolean alreadySeen = prefs.getBoolean(Constants.HAS_SEEN_WELCOME_MESSAGE, false);
-        if (alreadySeen) {
-            return;
-        }
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.welcome_title)
-                .setMessage(R.string.welcome_message)
-                .setPositiveButton(R.string.info_dialog_ok, (dialog, which) -> prefs.edit()
-                        .putBoolean(Constants.HAS_SEEN_WELCOME_MESSAGE, true)
-                        .apply())
                 .show();
     }
 }
