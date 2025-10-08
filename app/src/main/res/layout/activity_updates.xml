@@ -55,7 +55,7 @@
                     android:fontFamily="sans-serif-light"
                     android:paddingBottom="16dp"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="56sp"
+                    android:textSize="36sp"
                     tools:text="LineageOS\n20"/>
 
                 <TextView
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/header_title"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     tools:text="Android 13"/>
 
                 <TextView
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/header_build_version"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     tools:text="1970-01-01"/>
 
                 <TextView
@@ -83,7 +83,7 @@
                     android:layout_below="@id/header_build_date"
                     android:layout_marginTop="8dp"
                     android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     tools:text="Last checked: 1970-01-01"/>
             </RelativeLayout>
 
