@@ -25,7 +25,7 @@
         <item name="android:dropDownHorizontalOffset">-16dp</item>
     </style>
 
-    <style name="AppTheme.AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+    <style name="AppTheme.AlertDialogTheme" parent="Theme.AlertDialog.SettingsLib">
         <item name="dialogCornerRadius">16dp</item>
     </style>
 </resources>
